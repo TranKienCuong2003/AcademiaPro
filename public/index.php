@@ -16,9 +16,9 @@ session_start();
         }
 
         .hero {
-            background-image: url('https://source.unsplash.com/1600x900/?education');
+            background-image: url('https://png.pngtree.com/background/20230409/original/pngtree-blue-sky-clouds-picture-image_2375553.jpg');
             background-size: cover;
-            color: white;
+            color: black;
             padding: 100px 0;
             text-align: center;
         }
@@ -30,7 +30,7 @@ session_start();
 
         /* Button Custom */
         .btn-custom {
-            background-color: #e27f28;
+            background-color: #4c61d6;
             color: white;
         }
 
@@ -95,6 +95,15 @@ session_start();
 
         .nav-item-exit {
             margin-left: 10px;
+        }
+
+        .container .display-4 {
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .container .lead {
+            color: #111;
         }
 
         .list-unstyled li a {
