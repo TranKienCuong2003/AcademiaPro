@@ -75,10 +75,9 @@ if (isset($_GET['student_id'])) {
         <?php foreach ($grades as $grade): ?>
             <div class="form-group">
                 <label for="course_<?php echo $grade['course_id']; ?>"><?php echo htmlspecialchars($grade['course_name']); ?></label>
-                <input type="text" class="form-control" id="course_<?php echo $grade['course_id']; ?>" name="grades[<?php echo $grade['course_id']; ?>]" value="<?php echo htmlspecialchars($grade['grade']); ?>">
+                <input type="text" class="form-control" id="course_<?php echo $grade['course_id']; ?>" name="grades[<?php echo $grade['course_id']; ?>]" value="<?php echo htmlspecialchars($grade['grade']); ?>" required>
             </div>
         <?php endforeach; ?>
-        
         <button type="submit" class="btn btn-primary">Cập nhật điểm</button>
     </form>
 </div>
