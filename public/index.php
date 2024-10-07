@@ -16,7 +16,7 @@ session_start();
         }
 
         .hero {
-            background-image: url('https://png.pngtree.com/background/20230409/original/pngtree-blue-sky-clouds-picture-image_2375553.jpg');
+            background-image: url('https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701350300.jpg');
             background-size: cover;
             color: black;
             padding: 100px 0;
@@ -27,8 +27,6 @@ session_start();
             height: 200px;
             object-fit: contain;
         }
-
-        /* Button Custom */
         .btn-custom {
             background-color: #4c61d6;
             color: white;
@@ -98,12 +96,13 @@ session_start();
         }
 
         .container .display-4 {
-            font-weight: 600;
-            color: #007bff;
+            font-weight: 630;
+            color: #fff;
         }
 
         .container .lead {
-            color: #111;
+            color: #000;
+            font-weight: 500;
         }
 
         .list-unstyled li a {

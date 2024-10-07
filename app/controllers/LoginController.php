@@ -27,7 +27,10 @@ class LoginController {
                 exit(); // Dừng thực thi tiếp theo
             } else {
                 // Xử lý nếu đăng nhập thất bại
-                echo "Đăng nhập thất bại, vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu.";
+                session_start();
+                $_SESSION['error'] = "Đăng nhập thất bại, vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu.";
+                header("Location: /app/views/auth/login.php");
+                exit();
             }
         }
     }

@@ -7,8 +7,45 @@
     <title>Đăng ký</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Navbar */
+        .navbar-light {
+            background-color: #4c61d6;
+        }
+
+        .navbar-light .navbar-brand,
+        .navbar-light .nav-link {
+            color: #fff !important;
+            transition: color 0.3s;
+        }
+
+        .navbar-light .nav-link:hover,
+        .navbar-light .navbar-brand:hover {
+            color: #ff9800 !important;
+        }
+
+        .navbar-light .navbar-toggler-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        .navbar-text {
+            margin-left: 70px;
+            color: #fff !important;
+        }
+    </style>
 </head>
 <body>
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/public/index.php">
+                <img src="https://cdn-icons-png.flaticon.com/512/3595/3595030.png" alt="Logo" style="height: 40px; width: auto;">
+                AcademiaPro
+            </a>
+        </div>
+    </nav>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">

@@ -65,24 +65,47 @@ if (isset($_GET['student_id'])) {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
+    <script>
+        function validateGrades() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            for (let input of inputs) {
+                let value = parseFloat(input.value);
+                // Kiểm tra nếu giá trị không hợp lệ
+                if (isNaN(value) || value < 0 || value > 10) {
+                    alert("Điểm phải nằm trong khoảng từ 0.00 đến 10.00.");
+                    input.focus();
+                    return false; // Ngăn gửi form
+                }
+                // Đặt điểm tối thiểu là 0.00
+                if (value === 0) {
+                    input.value = "0.00"; // Đặt giá trị thành 0.00
+                } else {
+                    // Chuyển đổi giá trị thành chuỗi và loại bỏ số 0 ở cuối
+                    input.value = value.toString().replace(/\.0+$/, '').replace(/(\.[0-9]*[1-9])0+$/, '$1');
+                }
+            }
+            return true; // Cho phép gửi form
+        }
+    </script>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="mb-4">Sửa điểm sinh viên: <?php echo htmlspecialchars($grades[0]['student_name']); ?></h1>
-    <form action="update.php" method="post">
-        <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($grades[0]['student_id']); ?>">
-        
-        <?php foreach ($grades as $grade): ?>
-            <div class="form-group">
-                <label for="course_<?php echo $grade['course_id']; ?>"><?php echo htmlspecialchars($grade['course_name']); ?></label>
-                <input type="text" class="form-control" id="course_<?php echo $grade['course_id']; ?>" name="grades[<?php echo $grade['course_id']; ?>]" value="<?php echo htmlspecialchars($grade['grade']); ?>" required>
-            </div>
-        <?php endforeach; ?>
-        <button type="submit" class="btn btn-primary">Cập nhật điểm</button>
-    </form>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="container mt-5">
+        <h1 class="mb-4">Sửa điểm sinh viên: <?php echo htmlspecialchars($grades[0]['student_name']); ?></h1>
+        <form action="update.php" method="post" onsubmit="return validateGrades();">
+            <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($grades[0]['student_id']); ?>">
+            
+            <?php foreach ($grades as $grade): ?>
+                <div class="form-group">
+                    <label for="course_<?php echo $grade['course_id']; ?>"><?php echo htmlspecialchars($grade['course_name']); ?></label>
+                    <input type="number" class="form-control" id="course_<?php echo $grade['course_id']; ?>" name="grades[<?php echo $grade['course_id']; ?>]" 
+                        value="<?php echo htmlspecialchars($grade['grade']); ?>" step="0.01" min="0" max="10" required>
+                </div>
+            <?php endforeach; ?>
+            <button type="submit" class="btn btn-primary">Cập nhật điểm</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
