@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Lấy thông tin sinh viên để điền vào form sửa
-$id = $_GET['id']; // Lấy ID từ query string
+$id = $_GET['id'];
 $query = "SELECT * FROM students WHERE id = :id";
 $stmt = $conn->prepare($query);
 $stmt->bindParam(':id', $id);

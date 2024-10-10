@@ -1,35 +1,37 @@
 <?php
+session_start(); // Di chuyển session_start() lên đầu file
+
 // Bao gồm file Database.php để kết nối CSDL
 require_once __DIR__ . '/../../Database.php';
 
 // Khởi tạo kết nối CSDL
-$database = Database::getInstance(); // Sử dụng phương thức getInstance
+$database = Database::getInstance();
 $conn = $database->getConnection();
 
 // Kiểm tra nếu có yêu cầu chép môn học
-if (isset($_GET['id'])) {
-    $course_id = $_GET['id'];
-
-    // Truy vấn lấy thông tin môn học từ CSDL
-    $query = "SELECT * FROM courses WHERE id = :id";
-    $stmt = $conn->prepare($query);
-    $stmt->bindParam(':id', $course_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $course = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Kiểm tra nếu không tìm thấy môn học
-    if (!$course) {
-        echo "Môn học không tồn tại!";
-        exit;
-    }
-} else {
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     echo "Không tìm thấy ID môn học!";
+    exit;
+}
+
+$course_id = (int) $_GET['id'];
+
+// Truy vấn lấy thông tin môn học từ CSDL
+$query = "SELECT * FROM courses WHERE id = :id";
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':id', $course_id, PDO::PARAM_INT);
+$stmt->execute();
+$course = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Kiểm tra nếu không tìm thấy môn học
+if (!$course) {
+    echo "Môn học không tồn tại!";
     exit;
 }
 
 // Xử lý khi người dùng submit form để tạo bản sao môn học
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $course['course_name'] . " (Sao chép)"; // Thay đổi tên môn học
+    $name = $course['course_name'] . " (Sao chép)";
     $description = $course['description'];
     $credits = $course['credits'];
 
@@ -41,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insert_stmt->bindParam(':credits', $credits, PDO::PARAM_INT);
 
     if ($insert_stmt->execute()) {
-        header('Location: index.php'); // Chuyển hướng về trang danh sách môn học
+        header('Location: index.php');
         exit;
     } else {
         echo "Chép môn học thất bại!";
@@ -55,12 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chép Khóa Học</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Chép Khóa Học</h2>
-        <form method="POST" action="">
+        <h2 class="mb-4">Chép Môn Học</h2>
+        <form method="POST">
             <div class="mb-3">
                 <label class="form-label"><strong>Tên Khóa Học:</strong></label>
                 <p class="form-control-plaintext"><?php echo htmlspecialchars($course['course_name']); ?></p>

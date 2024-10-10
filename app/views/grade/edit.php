@@ -54,17 +54,6 @@ if (isset($_GET['student_id'])) {
     <title>Sửa điểm sinh viên</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
     <script>
         function validateGrades() {
             const inputs = document.querySelectorAll('input[type="number"]');
@@ -74,17 +63,17 @@ if (isset($_GET['student_id'])) {
                 if (isNaN(value) || value < 0 || value > 10) {
                     alert("Điểm phải nằm trong khoảng từ 0.00 đến 10.00.");
                     input.focus();
-                    return false; // Ngăn gửi form
+                    return false;
                 }
                 // Đặt điểm tối thiểu là 0.00
                 if (value === 0) {
-                    input.value = "0.00"; // Đặt giá trị thành 0.00
+                    input.value = "0.00";
                 } else {
                     // Chuyển đổi giá trị thành chuỗi và loại bỏ số 0 ở cuối
                     input.value = value.toString().replace(/\.0+$/, '').replace(/(\.[0-9]*[1-9])0+$/, '$1');
                 }
             }
-            return true; // Cho phép gửi form
+            return true;
         }
     </script>
 </head>
@@ -104,6 +93,7 @@ if (isset($_GET['student_id'])) {
             <button type="submit" class="btn btn-primary">Cập nhật điểm</button>
         </form>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

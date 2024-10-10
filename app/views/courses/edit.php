@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../Database.php';
 
 // Khởi tạo kết nối CSDL
-$database = Database::getInstance(); // Sử dụng phương thức getInstance()
+$database = Database::getInstance();
 $conn = $database->getConnection();
 
 // Kiểm tra nếu có yêu cầu chỉnh sửa môn học
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Cập nhật môn học thành công!";
         // Kiểm tra xem file index.php có tồn tại không
         if (file_exists(__DIR__ . '/index.php')) {
-            header('Location: index.php'); // Chuyển hướng đến trang danh sách môn học
+            header('Location: index.php');
         } else {
             echo "Trang danh sách môn học không tồn tại!";
         }
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chỉnh sửa môn học</title>
-    <!-- Bao gồm Bootstrap CSS -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" action="">
             <div class="mb-3">
                 <label for="course_name" class="form-label">Tên môn học</label>
-                <!-- Thay đổi id và name từ 'name' thành 'course_name' -->
                 <input type="text" class="form-control" id="course_name" name="course_name" 
                        value="<?php echo isset($course['course_name']) ? htmlspecialchars($course['course_name']) : ''; ?>" required>
             </div>
@@ -86,12 +85,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                        value="<?php echo isset($course['credits']) ? htmlspecialchars($course['credits']) : ''; ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
-            <!-- Thay đường dẫn thực tế cho trang danh sách môn học -->
             <a href="index.php" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>
 
-    <!-- Bao gồm Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

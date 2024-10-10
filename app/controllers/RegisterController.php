@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/User.php'; // Đảm bảo đường dẫn đúng đến User.php
+require_once __DIR__ . '/../models/User.php';
 
 class RegisterController {
     public function __construct() {

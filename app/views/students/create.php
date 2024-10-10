@@ -47,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
 </head>
 <body>
-    
     <div class="container mt-5">
         <h2>Thêm sinh viên</h2>
         <form method="POST" action="">

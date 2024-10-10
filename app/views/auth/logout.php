@@ -1,6 +1,20 @@
 <?php
 session_start(); // Bắt đầu phiên làm việc
 
+// Định nghĩa đường dẫn cho dễ dàng bảo trì
+define('LOGIN_PAGE', '/app/views/auth/login.php');
+define('INDEX_PAGE', '/public/index.php');
+
+// Hàm chuyển hướng với mã trạng thái HTTP
+function redirect($url, $message = '') {
+    if (!empty($message)) {
+        // Thêm thông báo vào URL
+        $url .= '?message=' . urlencode($message);
+    }
+    header("Location: $url");
+    exit();
+}
+
 // Kiểm tra xem người dùng đã đăng nhập chưa
 if (isset($_SESSION['username'])) {
     // Xóa tất cả biến phiên
@@ -9,11 +23,9 @@ if (isset($_SESSION['username'])) {
     session_destroy();
     
     // Chuyển hướng về trang đăng nhập với thông báo
-    header("Location: /app/views/auth/login.php?message=Đăng xuất thành công.");
-    exit();
+    redirect(LOGIN_PAGE, 'Đăng xuất thành công.');
 } else {
     // Nếu chưa đăng nhập, chuyển hướng về trang chính hoặc đăng nhập
-    header("Location: /public/index.php");
-    exit();
+    redirect(INDEX_PAGE);
 }
 ?>

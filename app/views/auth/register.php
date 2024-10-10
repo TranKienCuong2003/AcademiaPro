@@ -1,3 +1,7 @@
+<?php
+session_start(); // Bắt đầu phiên làm việc
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,49 +11,20 @@
     <title>Đăng ký</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        /* Navbar */
-        .navbar-light {
-            background-color: #4c61d6;
-        }
-
-        .navbar-light .navbar-brand,
-        .navbar-light .nav-link {
-            color: #fff !important;
-            transition: color 0.3s;
-        }
-
-        .navbar-light .nav-link:hover,
-        .navbar-light .navbar-brand:hover {
-            color: #ff9800 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            filter: brightness(0) invert(1);
-        }
-
-        .navbar-text {
-            margin-left: 70px;
-            color: #fff !important;
-        }
-    </style>
 </head>
 <body>
-     <!-- Navbar -->
-     <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="/public/index.php">
-                <img src="https://cdn-icons-png.flaticon.com/512/3595/3595030.png" alt="Logo" style="height: 40px; width: auto;">
-                AcademiaPro
-            </a>
-        </div>
-    </nav>
-
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h2 class="text-center">Đăng ký</h2>
+
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= htmlspecialchars($_SESSION['error']); ?> <!-- Bảo mật đầu ra -->
+                    </div>
+                    <?php unset($_SESSION['error']); // Xóa thông báo lỗi sau khi hiển thị ?>
+                <?php endif; ?>
+
                 <form action="/app/controllers/RegisterController.php" method="POST" onsubmit="return validateForm();">
                     <div class="mb-3">
                         <label for="username" class="form-label">Tên đăng nhập</label>
@@ -76,22 +51,8 @@
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function validateForm() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
-            const passwordError = document.getElementById('passwordError');
-
-            // Kiểm tra xem mật khẩu và xác nhận mật khẩu có giống nhau không
-            if (password !== confirmPassword) {
-                passwordError.style.display = 'block';
-                return false; // Ngăn không cho form được gửi
-            }
-
-            passwordError.style.display = 'none';
-            return true; // Cho phép form được gửi
-        }
-    </script>
+    <script src="/public/assets/js/index.js"></script>
 </body>
 </html>

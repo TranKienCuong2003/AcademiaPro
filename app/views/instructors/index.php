@@ -30,6 +30,7 @@ $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Quản lý Giảng viên</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
+    <link rel="stylesheet" href="/public/assets/css/style.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -82,5 +83,7 @@ $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <a href="create.php" class="btn btn-primary">Thêm Giảng viên</a>
     </div>
+
+    <?php include '../partials/footer.php'; ?> <!-- Include Footer -->
 </body>
 </html>

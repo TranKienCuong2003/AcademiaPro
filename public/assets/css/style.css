@@ -1,0 +1,112 @@
+body {
+    background-color: #e9f7ef;
+}
+
+.hero {
+    background-image: url('https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701350300.jpg');
+    background-size: cover;
+    color: black;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: contain;
+}
+.btn-custom {
+    background-color: #4c61d6;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: #de7921;
+    color: white;
+}
+
+.card-custom {
+    transition: box-shadow 0.3s;
+}
+
+.card-custom:hover {
+    box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.5);
+    background-color: #f0f0f0;
+}
+
+.info-section {
+    padding: 40px 0;
+    background-color: #f0f9ff;
+    text-align: center;
+}
+
+.info-section h2 {
+    color: #007bff;
+}
+
+.info-section p {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Navbar */
+.navbar-light {
+    background-color: #4c61d6;
+}
+
+.navbar-light .navbar-brand,
+.navbar-light .nav-link {
+    color: #fff !important;
+    transition: color 0.3s;
+}
+
+.navbar-light .nav-link:hover,
+.navbar-light .navbar-brand:hover {
+    color: #ff9800 !important;
+}
+
+.navbar-light .navbar-toggler-icon {
+    filter: brightness(0) invert(1);
+}
+
+.navbar-text {
+    margin-left: 70px;
+    color: #fff !important;
+}
+
+.navbar-text-user {
+    color: #ff9800 !important;
+    font-weight: 800;
+}
+
+.nav-item-exit {
+    margin-left: 10px;
+}
+
+.container .display-4 {
+    font-weight: 630;
+    color: #fff;
+}
+
+.container .lead {
+    color: #000;
+    font-weight: 500;
+}
+
+.list-unstyled li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    background-color: #4c61d6;
+    color: white;
+}
+
+.footer-description {
+    cursor: default;
+}
+
+.footer-description a {
+    cursor: pointer;
+}

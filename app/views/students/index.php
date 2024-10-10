@@ -46,6 +46,7 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Quản lý sinh viên</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3595/3595030.png">
+    <link rel="stylesheet" href="/public/assets/css/style.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -71,7 +72,10 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($student['name']); ?></td>
                             <td><?php echo htmlspecialchars($student['class']); ?></td>
                             <td><?php echo htmlspecialchars($student['major']); ?></td>
-                            <td><?php echo htmlspecialchars($student['dob']); ?></td>
+                            <td><?php
+                                $dob = new DateTime($student['dob']);
+                                echo htmlspecialchars($dob->format('d/m/Y')); 
+                            ?></td>
                             <td><?php echo htmlspecialchars($student['birthplace']); ?></td>
                             <td>
                                 <a href="edit.php?id=<?php echo htmlspecialchars($student['id']); ?>" class="btn btn-warning">Sửa</a>
@@ -114,10 +118,12 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php if (isset($_SESSION['message'])): ?>
             <div class="alert alert-success">
                 <?php echo htmlspecialchars($_SESSION['message']); ?>
-                <?php unset($_SESSION['message']); // Xóa thông báo sau khi đã hiển thị ?>
+                <?php unset($_SESSION['message']); ?>
             </div>
         <?php endif; ?>
     </div>
+
+    <?php include '../partials/footer.php'; ?> <!-- Include Footer -->
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
