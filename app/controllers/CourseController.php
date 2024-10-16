@@ -29,9 +29,8 @@ class CourseController {
 
             // Tạo khóa học mới
             if ($this->course->createCourse($course_name, $credits)) {
-                // Điều hướng đến trang danh sách khóa học sau khi tạo thành công
-                header('Location: /public/index.php?controller=CourseController&action=index');
-                exit();
+                // Điều hướng bằng JavaScript
+                $this->redirect('/public/index.php?controller=CourseController&action=index');
             } else {
                 echo "Có lỗi xảy ra khi tạo khóa học.";
             }
@@ -52,9 +51,8 @@ class CourseController {
 
             // Cập nhật thông tin khóa học
             if ($this->course->updateCourse($id, $course_name, $credits)) {
-                // Điều hướng đến trang danh sách khóa học sau khi cập nhật thành công
-                header('Location: /public/index.php?controller=CourseController&action=index');
-                exit();
+                // Điều hướng bằng JavaScript
+                $this->redirect('/public/index.php?controller=CourseController&action=index');
             } else {
                 echo "Có lỗi xảy ra khi cập nhật khóa học.";
             }
@@ -67,12 +65,17 @@ class CourseController {
     public function delete($id) {
         // Xóa khóa học theo ID
         if ($this->course->deleteCourse($id)) {
-            // Điều hướng đến trang danh sách khóa học sau khi xóa thành công
-            header('Location: /public/index.php?controller=CourseController&action=index');
-            exit();
+            // Điều hướng bằng JavaScript
+            $this->redirect('/public/index.php?controller=CourseController&action=index');
         } else {
             echo "Có lỗi xảy ra khi xóa khóa học.";
         }
+    }
+
+    // Helper function để điều hướng bằng JavaScript
+    private function redirect($url) {
+        echo "<script>window.location.href = '$url';</script>";
+        exit();
     }
 }
 ?>

@@ -1,44 +1,76 @@
 <?php
-require_once __DIR__ . '/../models/Grade.php';
+require_once '../app/config.php';
+require_once '../app/models/Grade.php';
 
 class GradeController {
-    private $gradeModel;
+    private $db;
+    private $grade;
 
     public function __construct() {
-        $this->gradeModel = new Grade();
+        // Khởi tạo kết nối cơ sở dữ liệu và mô hình Grade
+        $this->db = new Database();
+        $this->grade = new Grade($this->db->getConnection());
     }
 
     public function index() {
-        $grades = $this->gradeModel->getAllGrades();
-        $view = __DIR__ . '/../views/grade/index.php';
-        require_once __DIR__ . '/../views/layout.php';
+        // Lấy danh sách điểm
+        $grades = $this->grade->getAllGrades();
+        include '../app/views/grade/index.php';
     }
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->gradeModel->createGrade($_POST);
-            header("Location: index.php");
-            exit();
+            // Lấy thông tin từ form tạo điểm
+            $student_id = intval($_POST['student_id']);
+            $course_id = intval($_POST['course_id']);
+            $score = floatval($_POST['score']);
+
+            // Tạo điểm mới
+            if ($this->grade->createGrade($student_id, $course_id, $score)) {
+                $this->redirect('/public/index.php?controller=GradeController&action=index');
+            } else {
+                echo "Có lỗi xảy ra khi tạo điểm.";
+            }
         }
-        $view = __DIR__ . '/../views/grade/create.php';
-        require_once __DIR__ . '/../views/layout.php';
+
+        // Hiển thị form tạo điểm
+        include '../app/views/grade/create.php';
     }
 
     public function edit($id) {
+        // Lấy thông tin điểm theo ID để chỉnh sửa
+        $grade = $this->grade->getGradeById($id);
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->gradeModel->updateGrade($id, $_POST);
-            header("Location: index.php");
-            exit();
+            // Lấy thông tin đã chỉnh sửa từ form
+            $student_id = intval($_POST['student_id']);
+            $course_id = intval($_POST['course_id']);
+            $score = floatval($_POST['score']);
+
+            // Cập nhật thông tin điểm
+            if ($this->grade->updateGrade($id, $student_id, $course_id, $score)) {
+                $this->redirect('/public/index.php?controller=GradeController&action=index');
+            } else {
+                echo "Có lỗi xảy ra khi cập nhật điểm.";
+            }
         }
 
-        $grade = $this->gradeModel->getGradeById($id);
-        $view = __DIR__ . '/../views/grade/edit.php';
-        require_once __DIR__ . '/../views/layout.php';
+        // Hiển thị form chỉnh sửa điểm
+        include '../app/views/grade/edit.php';
     }
 
     public function delete($id) {
-        $this->gradeModel->deleteGrade($id);
-        header("Location: index.php");
+        // Xóa điểm theo ID
+        if ($this->grade->deleteGrade($id)) {
+            $this->redirect('/public/index.php?controller=GradeController&action=index');
+        } else {
+            echo "Có lỗi xảy ra khi xóa điểm.";
+        }
+    }
+
+    // Helper function để điều hướng bằng JavaScript
+    private function redirect($url) {
+        echo "<script>window.location.href = '$url';</script>";
         exit();
     }
 }

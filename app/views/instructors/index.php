@@ -37,6 +37,24 @@ $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Xử lý xóa giảng viên
+if (isset($_POST['delete_id'])) {
+    $deleteId = $_POST['delete_id'];
+    $deleteQuery = "DELETE FROM instructors WHERE id = :id";
+    $deleteStmt = $conn->prepare($deleteQuery);
+    $deleteStmt->bindParam(':id', $deleteId);
+    
+    if ($deleteStmt->execute()) {
+        $_SESSION['message'] = 'Giảng viên đã được xóa thành công.';
+    } else {
+        $_SESSION['error'] = 'Có lỗi xảy ra khi xóa giảng viên.';
+    }
+
+    // Chuyển hướng về trang hiện tại sau khi xóa
+    header("Location: index.php?page=$page&search=" . urlencode($search));
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +112,8 @@ $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td class="text-dark"><?php echo htmlspecialchars($instructor['subject_taught']); ?></td>
                             <td class="text-dark"><?php echo htmlspecialchars($instructor['degree']); ?></td>
                             <td>
-                                <a href="edit.php?id=<?php echo htmlspecialchars($instructor['id']); ?>" class="btn btn-warning">Chỉnh sửa</a>
+                                <a href="view.php?id=<?php echo htmlspecialchars($instructor['id']); ?>" class="btn btn-info">Chi tiết</a>
+                                <a href="edit.php?id=<?php echo htmlspecialchars($instructor['id']); ?>" class="btn btn-warning">Sửa</a>
                                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $instructor['id']; ?>">Xóa</button>
                             </td>
                         </tr>
@@ -114,7 +133,10 @@ $instructors = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                        <a href="delete.php?id=<?php echo htmlspecialchars($instructor['id']); ?>" class="btn btn-danger">Xóa</a>
+                                        <form action="" method="post" class="d-inline">
+                                            <input type="hidden" name="delete_id" value="<?php echo htmlspecialchars($instructor['id']); ?>">
+                                            <button type="submit" class="btn btn-danger">Xóa</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

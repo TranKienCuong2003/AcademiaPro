@@ -3,7 +3,14 @@ require_once '../app/config.php';
 require_once '../app/models/Student.php';
 
 class StudentController {
+    private $db;
     private $student;
+
+    public function __construct() {
+        // Khởi tạo kết nối cơ sở dữ liệu và mô hình Student
+        $this->db = new Database();
+        $this->student = new Student($this->db->getConnection());
+    }
 
     public function index() {
         // Lấy danh sách sinh viên
@@ -14,7 +21,7 @@ class StudentController {
             $students = [];
             $error = "Có lỗi xảy ra khi lấy danh sách sinh viên.";
         } elseif (empty($students)) {
-            $students = []; // Không có sinh viên nào
+            $students = [];
         }
 
         // Gọi view và truyền biến $students và $error
@@ -27,8 +34,8 @@ class StudentController {
             $name = htmlspecialchars(trim($_POST['name']));
 
             if ($this->student->createStudent($name)) {
-                header('Location: /public/index.php?action=index');
-                exit();
+                // Điều hướng bằng JavaScript
+                $this->redirect('/public/index.php?controller=StudentController&action=index');
             } else {
                 $error = "Có lỗi xảy ra khi tạo sinh viên.";
             }
@@ -50,8 +57,8 @@ class StudentController {
                 $name = htmlspecialchars(trim($_POST['name']));
 
                 if ($this->student->updateStudent($id, $name)) {
-                    header('Location: /public/index.php?action=index');
-                    exit();
+                    // Điều hướng bằng JavaScript
+                    $this->redirect('/public/index.php?controller=StudentController&action=index');
                 } else {
                     $error = "Có lỗi xảy ra khi cập nhật sinh viên.";
                 }
@@ -63,16 +70,23 @@ class StudentController {
     }
 
     public function delete($id) {
-        $error = ""; // Khởi tạo biến lỗi
+        $error = "";
         if ($this->student->deleteStudent($id)) {
-            header('Location: /public/index.php?action=index');
-            exit();
+            // Điều hướng bằng JavaScript
+            $this->redirect('/public/index.php?controller=StudentController&action=index');
         } else {
             $error = "Có lỗi xảy ra khi xóa sinh viên.";
         }
 
-        // Thông báo lỗi sau khi xóa (nếu có)
+        // Gọi lại view để hiển thị danh sách sinh viên
+        $students = $this->student->getStudents();
         require '../app/views/students/index.php';
+    }
+
+    // Helper function để điều hướng bằng JavaScript
+    private function redirect($url) {
+        echo "<script>window.location.href = '$url';</script>";
+        exit();
     }
 }
 ?>

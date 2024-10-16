@@ -1,8 +1,9 @@
 <?php
 session_start();
 
-// Kiểm tra nếu có thông báo lỗi
+// Kiểm tra nếu có thông báo lỗi hoặc thông báo khác
 $errorMessage = isset($_SESSION['error']) ? htmlspecialchars($_SESSION['error']) : '';
+$message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : ''; 
 unset($_SESSION['error']);
 ?>
 
@@ -19,18 +20,25 @@ unset($_SESSION['error']);
 </head>
 <body>
     <?php include '../partials/navbar.php'; ?> <!-- Navbar -->
+    
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h2 class="text-center">Đăng nhập</h2>
                 
+                <?php if (!empty($message)): ?>
+                    <div class="alert alert-success" role="alert">
+                        <?= $message; ?>
+                    </div>
+                <?php endif; ?>
+
                 <?php if (!empty($errorMessage)): ?>
                     <div class="alert alert-danger" role="alert">
                         <?= $errorMessage; ?>
                     </div>
                 <?php endif; ?>
                 
-                <form action="/app/controllers/LoginController.php" method="POST">
+                <form action="/app/controllers/AuthController.php?action=login" method="POST">
                     <div class="mb-3">
                         <label for="username" class="form-label">Tên đăng nhập</label>
                         <input type="text" class="form-control" id="username" name="username" required>

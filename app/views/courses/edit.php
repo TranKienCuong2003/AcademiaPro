@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
-        <h2>Chỉnh sửa môn học</h2>
+        <h2 class="mb-4">Chỉnh sửa môn học</h2>
         <form method="POST" action="">
             <div class="mb-3">
                 <label for="course_name" class="form-label">Tên môn học</label>
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="credits" class="form-label">Số tín chỉ</label>
                 <input type="number" class="form-control" id="credits" name="credits" 
-                       value="<?php echo isset($course['credits']) ? htmlspecialchars($course['credits']) : ''; ?>" min="1" required>
+                       value="<?php echo isset($course['credits']) ? htmlspecialchars($course['credits']) : ''; ?>" min="1" max="4" required>
             </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
             <a href="index.php" class="btn btn-secondary">Quay lại</a>

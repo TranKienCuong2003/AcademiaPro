@@ -57,12 +57,13 @@ if (!$student) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sửa thông tin sinh viên</title>
+    <title>Sửa thông tin sinh viên <?php echo htmlspecialchars($student['name']); ?></title>
     <link rel="icon" type="image/png" href="/public/assets/imgages/Logo_AcademiaPro.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/assets/css/style.css">
 </head>
 <body>
+    <?php include '../partials/navbar.php'; ?> <!-- Navbar -->
     <div class="container mt-5">
         <h2>Sửa thông tin sinh viên</h2>
         <form method="POST" action="">
@@ -91,6 +92,8 @@ if (!$student) {
             <a href="index.php" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>
+
+    <?php include '../partials/footer.php'; ?> <!-- Footer -->
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -15,19 +15,30 @@ if (!$conn) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     $delete_id = $_POST['delete_id'];
 
-    // Truy vấn để xóa sinh viên
-    $delete_query = "DELETE FROM students WHERE id = :id";
-    $stmt = $conn->prepare($delete_query);
-    $stmt->bindParam(':id', $delete_id);
+    // Truy vấn để lấy tên sinh viên trước khi xóa
+    $name_query = "SELECT name FROM students WHERE id = :id";
+    $name_stmt = $conn->prepare($name_query);
+    $name_stmt->bindParam(':id', $delete_id);
+    $name_stmt->execute();
+    $student = $name_stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($stmt->execute()) {
-        // Lưu thông báo vào session
-        $_SESSION['message'] = "Xóa sinh viên thành công!";
-        // Chuyển hướng về danh sách sinh viên
-        header("Location: index.php");
-        exit();
+    if ($student) {
+        // Truy vấn để xóa sinh viên
+        $delete_query = "DELETE FROM students WHERE id = :id";
+        $stmt = $conn->prepare($delete_query);
+        $stmt->bindParam(':id', $delete_id);
+
+        if ($stmt->execute()) {
+            // Lưu thông báo vào session
+            $_SESSION['message'] = "Xóa sinh viên <strong>" . htmlspecialchars($student['name']) . "</strong> thành công!";
+            // Chuyển hướng về danh sách sinh viên
+            header("Location: index.php");
+            exit();
+        } else {
+            echo '<div class="alert alert-danger">Có lỗi xảy ra trong quá trình xóa sinh viên.</div>';
+        }
     } else {
-        echo '<div class="alert alert-danger">Có lỗi xảy ra trong quá trình xóa sinh viên.</div>';
+        echo '<div class="alert alert-danger">Không tìm thấy sinh viên với ID: ' . htmlspecialchars($delete_id) . '</div>';
     }
 }
 
@@ -69,7 +80,23 @@ function getRowColor($index) {
 </head>
 <body>
     <?php include '../partials/navbar.php'; ?> <!-- Navbar -->
+    
     <div class="container mt-5">
+        <!-- Thông báo nếu có -->
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?php
+                // Hiển thị thông báo
+                echo $_SESSION['message'];
+                // Xóa thông báo sau khi đã hiển thị
+                unset($_SESSION['message']);
+                ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif; ?>
+
         <h2>Danh sách sinh viên</h2>
 
         <div class="table-responsive">
@@ -99,6 +126,7 @@ function getRowColor($index) {
                                 ?></td>
                                 <td class="text-dark"><?php echo htmlspecialchars($student['birthplace']); ?></td>
                                 <td>
+                                    <a href="view.php?id=<?php echo htmlspecialchars($student['id']); ?>" class="btn btn-info">Chi tiết</a>
                                     <a href="edit.php?id=<?php echo htmlspecialchars($student['id']); ?>" class="btn btn-warning">Sửa</a>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo htmlspecialchars($student['id']); ?>">Xóa</button>
 
@@ -153,20 +181,19 @@ function getRowColor($index) {
                     </li>
                 <?php endfor; ?>
 
-                <li class="page-item <?php echo ($page == $total_pages || $total_pages == 0) ? 'disabled' : ''; ?>">
+                <li class="page-item <?php echo ($page == $total_pages) ? 'disabled' : ''; ?>">
                     <a class="page-link" href="<?php echo ($page < $total_pages) ? '?page=' . ($page + 1) : '#'; ?>" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
             </ul>
         </nav>
-
-        <a href="create.php" class="btn btn-primary">Thêm Sinh viên</a>
     </div>
 
     <?php include '../partials/footer.php'; ?> <!-- Footer -->
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

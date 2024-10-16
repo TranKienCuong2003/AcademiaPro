@@ -1,9 +1,15 @@
 <?php
 session_start(); // Bắt đầu phiên làm việc
+
+// Kiểm tra nếu có thông báo lỗi hoặc thành công
+$errorMessage = isset($_SESSION['error']) ? htmlspecialchars($_SESSION['error']) : '';
+unset($_SESSION['error']);
+
+$message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,19 +21,25 @@ session_start(); // Bắt đầu phiên làm việc
 </head>
 <body>
     <?php include '../partials/navbar.php'; ?> <!-- Navbar -->
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h2 class="text-center">Đăng ký</h2>
 
-                <?php if (isset($_SESSION['error'])): ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?= htmlspecialchars($_SESSION['error']); ?> <!-- Bảo mật đầu ra -->
+                <?php if (!empty($message)): ?>
+                    <div class="alert alert-success" role="alert">
+                        <?= $message; ?>
                     </div>
-                    <?php unset($_SESSION['error']); // Xóa thông báo lỗi sau khi hiển thị ?>
                 <?php endif; ?>
 
-                <form action="/app/controllers/RegisterController.php" method="POST" onsubmit="return validateForm();">
+                <?php if (!empty($errorMessage)): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= $errorMessage; ?>
+                    </div>
+                <?php endif; ?>
+
+                <form action="/app/controllers/AuthController.php?action=register" method="POST" onsubmit="return validateForm();">
                     <div class="mb-3">
                         <label for="username" class="form-label">Tên đăng nhập</label>
                         <input type="text" class="form-control" id="username" name="username" required>
@@ -49,7 +61,10 @@ session_start(); // Bắt đầu phiên làm việc
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
                 </form>
-                <p class="text-center mt-3">Đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
+                
+                <p class="text-center mt-3">
+                    Đã có tài khoản? <a href="login.php">Đăng nhập</a>
+                </p>
             </div>
         </div>
     </div>
@@ -57,6 +72,18 @@ session_start(); // Bắt đầu phiên làm việc
     <?php include '../partials/footer.php'; ?> <!-- Footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/public/assets/js/index.js"></script>
+    <script>
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            if (password !== confirmPassword) {
+                const errorDiv = document.getElementById('passwordError');
+                errorDiv.style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>

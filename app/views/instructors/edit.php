@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chỉnh sửa giảng viên</title>
+    <title>Chỉnh sửa giảng viên: <?php echo htmlspecialchars($instructorData['name']); ?></title>
     <link rel="icon" type="image/png" href="/public/assets/imgages/Logo_AcademiaPro.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/assets/css/style.css">

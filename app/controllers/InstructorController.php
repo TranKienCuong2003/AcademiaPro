@@ -1,81 +1,61 @@
 <?php
-class Instructor {
-    // Kết nối cơ sở dữ liệu và tên bảng
-    private $conn;
-    private $table_name = "instructors";
+require_once __DIR__ . '/../models/Instructor.php';
 
-    // Các thuộc tính của giảng viên
-    public $id;
-    public $name;
-    public $subject_taught;
-    public $degree;
+class InstructorController {
+    private $instructorModel;
 
-    // Constructor với đối tượng kết nối
     public function __construct($db) {
-        $this->conn = $db;
+        // Truyền tham số $db vào constructor của Instructor
+        $this->instructorModel = new Instructor($db);
     }
 
-    // Lấy tất cả giảng viên
-    public function getInstructors() {
-        $query = "SELECT id, name, subject_taught, degree FROM " . $this->table_name;
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Hiển thị danh sách giảng viên
+    public function index($searchTerm = '') {
+        $instructors = $this->instructorModel->getInstructors($searchTerm);
+        $view = __DIR__ . '/../views/instructor/index.php';
+        require_once __DIR__ . '/../views/layout.php';
     }
 
     // Thêm giảng viên mới
-    public function createInstructor($name, $subject_taught, $degree) {
-        $query = "INSERT INTO " . $this->table_name . " (name, subject_taught, degree) VALUES (:name, :subject_taught, :degree)";
-        $stmt = $this->conn->prepare($query);
+    public function create() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'];
+            $subject_taught = $_POST['subject_taught'];
+            $degree = $_POST['degree'];
 
-        // Liên kết các tham số
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':subject_taught', $subject_taught);
-        $stmt->bindParam(':degree', $degree);
-
-        // Thực hiện truy vấn
-        return $stmt->execute();
+            $this->instructorModel->createInstructor($name, $subject_taught, $degree);
+            $this->redirect('index.php');
+        }
+        $view = __DIR__ . '/../views/instructor/create.php';
+        require_once __DIR__ . '/../views/layout.php';
     }
 
-    // Cập nhật thông tin giảng viên
-    public function updateInstructor($id, $name, $subject_taught, $degree) {
-        $query = "UPDATE " . $this->table_name . " SET name = :name, subject_taught = :subject_taught, degree = :degree WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+    // Sửa giảng viên
+    public function edit($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'];
+            $subject_taught = $_POST['subject_taught'];
+            $degree = $_POST['degree'];
 
-        // Liên kết các tham số
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':subject_taught', $subject_taught);
-        $stmt->bindParam(':degree', $degree);
+            $this->instructorModel->updateInstructor($id, $name, $subject_taught, $degree);
+            $this->redirect('index.php');
+        }
 
-        // Thực hiện truy vấn
-        return $stmt->execute();
+        $instructor = $this->instructorModel->getInstructorById($id);
+        $view = __DIR__ . '/../views/instructor/edit.php';
+        require_once __DIR__ . '/../views/layout.php';
     }
 
     // Xóa giảng viên
-    public function deleteInstructor($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-
-        // Liên kết tham số
-        $stmt->bindParam(':id', $id);
-
-        // Thực hiện truy vấn
-        return $stmt->execute();
+    public function delete($id) {
+        $this->instructorModel->deleteInstructor($id);
+        $this->redirect('index.php');
     }
 
-    // Tìm kiếm giảng viên theo tên
-    public function searchInstructors($name) {
-        $query = "SELECT id, name, subject_taught, degree FROM " . $this->table_name . " WHERE name LIKE :name";
-        $stmt = $this->conn->prepare($query);
-
-        // Liên kết tham số
-        $name = "%$name%";
-        $stmt->bindParam(':name', $name);
-
-        // Thực hiện truy vấn
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Điều hướng với JavaScript
+    private function redirect($url) {
+        echo "<script>window.location.href = '$url';</script>";
+        exit();
     }
 }
 ?>
