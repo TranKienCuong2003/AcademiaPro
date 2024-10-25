@@ -10,19 +10,14 @@ class AuthController {
             $username = trim($_POST['username']);
             $password = trim($_POST['password']);
 
-            // Khởi tạo đối tượng User
-            $user = new User();
-            $result = $user->login($username, $password);
+            $auth = new Auth(); // Sử dụng lớp Auth thay vì User
+            $result = $auth->login($username, $password);
 
             if ($result) {
                 $_SESSION['username'] = $username;
-
-                // Chuyển hướng đến trang chính
                 $this->redirect('/public/index.php');
             } else {
-                $_SESSION['error'] = "Đăng nhập thất bại, vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu.";
-
-                // Chuyển hướng lại trang đăng nhập
+                $_SESSION['error'] = "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.";
                 $this->redirect('/app/views/auth/login.php');
             }
             exit();
@@ -32,19 +27,22 @@ class AuthController {
     // Hàm đăng ký
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
+            $username = trim($_POST['username']);
+            $password = trim($_POST['password']);
+            $email = trim($_POST['email']);
+            $fullname = trim($_POST['fullname']) ?? null;
+            $phone = trim($_POST['phone']) ?? null;
+            $avatar = trim($_POST['avatar']) ?? null;
 
-            // Khởi tạo đối tượng User
-            $user = new User();
-            $result = $user->register($username, $password, $email);
+            $auth = new Auth(); // Sử dụng lớp Auth
+            // Gọi phương thức register với tất cả các tham số
+            $result = $auth->register($username, $password, $email, $fullname, $phone, $avatar);
 
             if ($result) {
-                // Chuyển hướng đến trang đăng nhập nếu đăng ký thành công
-                $this->redirect('/app/views/auth/login.php');
+                // Chuyển hướng với thông báo thành công
+                $this->redirect('/app/views/auth/login.php', 'Bạn đã đăng ký thành công và được chuyển sang trang Đăng nhập.');
             } else {
-                // Chuyển hướng lại trang đăng ký nếu thất bại
+                $_SESSION['error'] = "Đăng ký thất bại. Vui lòng thử lại.";
                 $this->redirect('/app/views/auth/register.php');
             }
             exit();
@@ -53,22 +51,15 @@ class AuthController {
 
     // Hàm đăng xuất
     public function logout() {
-        if (isset($_SESSION['username'])) {
-            session_unset();
-            session_destroy();
-
-            // Chuyển hướng về trang đăng nhập với thông báo
-            $this->redirect('/app/views/auth/login.php', 'Đăng xuất thành công.');
-        } else {
-            // Chuyển hướng về trang chính nếu chưa đăng nhập
-            $this->redirect('/public/index.php');
-        }
+        session_unset();
+        session_destroy();
+        $this->redirect('/app/views/auth/login.php', 'Đăng xuất thành công.');
     }
 
-    // Hàm chuyển hướng
+    // Hàm chuyển hướng với thông báo
     private function redirect($url, $message = '') {
         if (!empty($message)) {
-            $url .= '?message=' . urlencode($message);
+            $_SESSION['message'] = $message;
         }
         header("Location: $url");
         exit();

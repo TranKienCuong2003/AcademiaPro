@@ -18,7 +18,7 @@ session_start();
     <!-- Info Section (Giới thiệu ngắn) -->
     <section class="info-section">
         <div class="container">
-            <h2>Hệ thống Quản lý Giáo dục</h2>
+            <h2>Hệ thống Quản lý Giáo dục AcademiaPro</h2>
             <p>Chào mừng đến với hệ thống quản lý giáo dục trực tuyến, giúp bạn quản lý thông tin về giảng viên, sinh viên và các môn học một cách đơn giản và hiệu quả.</p>
         </div>
     </section>
@@ -40,7 +40,7 @@ session_start();
                     <img src="../public/assets/imgages/Teacher.jpeg" class="card-img-top" alt="Giảng viên">
                     <div class="card-body text-center">
                         <h5 class="card-title">Quản lý Giảng viên</h5>
-                        <p class="card-text">Xem, thêm, sửa và xóa thông tin giảng viên.</p>
+                        <p class="card-text">Quản lý danh sách giảng viên theo từng môn dạy</p>
                         <a href="/app/views/instructors/index.php" class="btn btn-custom">Xem chi tiết</a>
                     </div>
                 </div>
@@ -72,6 +72,8 @@ session_start();
         </div>
     </main>
 
+    <?php include '../app/views/partials/chat.php'; ?> <!-- Chat Bot -->
+    
     <?php include '../app/views/partials/footer.php'; ?> <!-- Footer -->
 
     <!-- Scripts -->

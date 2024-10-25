@@ -27,6 +27,8 @@
                             Xin chào, <span class="navbar-text-user"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
+                            <!-- Thêm Thông tin tài khoản -->
+                            <a class="dropdown-item" href="/app/views/auth/account.php">Thông tin tài khoản</a>
                             <!-- Gọi đến action logout trong AuthController -->
                             <a class="dropdown-item" href="/app/controllers/AuthController.php?action=logout">Đăng xuất</a>
                         </div>

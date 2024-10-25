@@ -16,25 +16,38 @@ unset($_SESSION['error']);
     <title>Đăng nhập</title>
     <link rel="icon" type="image/png" href="/public/assets/imgages/Logo_AcademiaPro.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/public/assets/css/style.css">
+
+    <style>
+        body {
+            background-image: url('/public/assets/imgages/Backroung_Auth.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #000;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body>
-    <?php include '../partials/navbar.php'; ?> <!-- Navbar -->
-    
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+    <div class="container vh-100 d-flex justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="card p-4">
                 <h2 class="text-center">Đăng nhập</h2>
                 
                 <?php if (!empty($message)): ?>
-                    <div class="alert alert-success" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <?= $message; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($errorMessage)): ?>
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <?= $errorMessage; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php endif; ?>
                 
@@ -56,9 +69,18 @@ unset($_SESSION['error']);
             </div>
         </div>
     </div>
-    
-    <?php include '../partials/footer.php'; ?> <!-- Include Footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Tự động ẩn thông báo sau 5 giây
+        setTimeout(() => {
+            const alert = document.querySelector('.alert');
+            if (alert) {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }
+        }, 5000);
+    </script>
 </body>
 </html>

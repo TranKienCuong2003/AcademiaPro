@@ -11,13 +11,13 @@ $instructor = new Instructor($conn);
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     // Lấy thông tin giảng viên
-    $query = "SELECT id, name, subject_taught, degree FROM instructors WHERE id = :id";
+    $query = "SELECT id, name, subject_taught, degree, date_of_birth, avatar, hometown, current_address, phone, email 
+              FROM instructors WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     $instructorData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Kiểm tra xem giảng viên có tồn tại không
     if (!$instructorData) {
         $_SESSION['error'] = "Giảng viên không tồn tại.";
         header("Location: index.php");
@@ -34,9 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = trim($_POST['name']);
     $subject_taught = trim($_POST['subject_taught']);
     $degree = trim($_POST['degree']);
+    $date_of_birth = $_POST['date_of_birth'];
+    $avatar = trim($_POST['avatar']);
+    $hometown = trim($_POST['hometown']);
+    $current_address = trim($_POST['current_address']);
+    $phone = trim($_POST['phone']);
+    $email = trim($_POST['email']);
 
-    // Cập nhật thông tin giảng viên
-    if ($instructor->updateInstructor($id, $name, $subject_taught, $degree)) {
+    if ($instructor->updateInstructor($id, $name, $subject_taught, $degree, $date_of_birth, $avatar, $hometown, $current_address, $phone, $email)) {
         $_SESSION['message'] = "Cập nhật giảng viên thành công.";
         header("Location: index.php");
         exit;
@@ -57,10 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="/public/assets/css/style.css">
 </head>
 <body>
-    <?php include '../partials/navbar.php'; ?> <!-- Navbar -->
+    <?php include '../partials/navbar.php'; ?>
     <div class="container mt-5">
         <h1>Chỉnh sửa Giảng viên</h1>
-        <!-- Hiển thị thông báo lỗi nếu có -->
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
         <?php endif; ?>
@@ -78,11 +82,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="degree">Bằng cấp:</label>
                 <input type="text" class="form-control" id="degree" name="degree" value="<?php echo htmlspecialchars($instructorData['degree']); ?>" required>
             </div>
+            <div class="form-group">
+                <label for="date_of_birth">Ngày sinh:</label>
+                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<?php echo $instructorData['date_of_birth']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="avatar">Đường dẫn ảnh đại diện:</label>
+                <input type="url" class="form-control" id="avatar" name="avatar" value="<?php echo htmlspecialchars($instructorData['avatar']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="hometown">Quê quán:</label>
+                <input type="text" class="form-control" id="hometown" name="hometown" value="<?php echo htmlspecialchars($instructorData['hometown']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="current_address">Địa chỉ hiện tại:</label>
+                <input type="text" class="form-control" id="current_address" name="current_address" value="<?php echo htmlspecialchars($instructorData['current_address']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($instructorData['phone']); ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($instructorData['email']); ?>" required>
+            </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
             <a href="index.php" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>
 
-    <?php include '../partials/footer.php'; ?> <!-- Footer -->
+    <?php include '../partials/chat.php'; ?>
+    <?php include '../partials/footer.php'; ?>
 </body>
 </html>

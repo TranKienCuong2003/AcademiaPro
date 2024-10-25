@@ -169,6 +169,35 @@ body {
     margin: 0 5px;
 }
 
+/* Chat */
+#chat-window {
+    border-radius: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.card-body {
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.form-control {
+    border-radius: 40px;
+}
+
+.btn-light {
+    border-radius: 40px;
+}
+
+.message-user {
+    border-radius: 40px !important;
+    background-color: #007bff !important;
+    color: #fff !important;
+}
+
+.message-bot {
+    background-color: #e9ecef;
+}
+
 /* Footer */
 footer {
     background-color: #4c61d6;

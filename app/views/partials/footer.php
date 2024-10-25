@@ -20,7 +20,7 @@
                 <h5 class="text-uppercase">Thông tin liên hệ</h5>
                 <ul class="list-unstyled">
                     <li><i class="fas fa-envelope"></i> academiapro.edu.vn</li>
-                    <li><i class="fas fa-phone"></i> (+84) 123456789</li>
+                    <li><i class="fas fa-phone"></i> (+84) 369702376</li>
                 </ul>
             </div>
         </div>

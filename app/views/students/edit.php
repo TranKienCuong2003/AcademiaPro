@@ -19,8 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $major = $_POST['major'];
     $dob = $_POST['dob'];
     $birthplace = $_POST['birthplace'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $avatar = $_POST['avatar'];
 
-    $query = "UPDATE students SET name = :name, class = :class, major = :major, dob = :dob, birthplace = :birthplace WHERE id = :id";
+    $query = "UPDATE students SET name = :name, class = :class, major = :major, dob = :dob, birthplace = :birthplace, email = :email, phone = :phone, avatar = :avatar WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
     $stmt->bindParam(':name', $name);
@@ -28,6 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindParam(':major', $major);
     $stmt->bindParam(':dob', $dob);
     $stmt->bindParam(':birthplace', $birthplace);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':avatar', $avatar);
 
     if ($stmt->execute()) {
         $_SESSION['message'] = "Cập nhật thông tin sinh viên thành công!";
@@ -88,10 +94,24 @@ if (!$student) {
                 <label for="birthplace">Nơi sinh:</label>
                 <input type="text" class="form-control" id="birthplace" name="birthplace" value="<?php echo $student['birthplace']; ?>" required>
             </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo $student['email']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" class="form-control" id="phone" name="phone" value="<?php echo $student['phone']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="avatar">Đường dẫn ảnh đại diện:</label>
+                <input type="text" class="form-control" id="avatar" name="avatar" value="<?php echo $student['avatar']; ?>" required>
+            </div>
             <button type="submit" class="btn btn-primary">Cập nhật sinh viên</button>
             <a href="index.php" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>
+
+    <?php include '../partials/chat.php'; ?> <!-- Chat Bot -->
 
     <?php include '../partials/footer.php'; ?> <!-- Footer -->
 

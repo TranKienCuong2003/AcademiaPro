@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../Database.php';
 
-class User {
+class Auth {
     private $conn;
 
     public function __construct() {
@@ -10,13 +10,17 @@ class User {
     }
 
     // Phương thức đăng ký người dùng
-    public function register($username, $password, $email) {
+    public function register($username, $password, $email, $fullname, $phone, $avatar) {
         try {
-            $query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+            // Cập nhật truy vấn SQL để bao gồm fullname, phone và avatar
+            $query = "INSERT INTO users (username, password, email, fullname, phone, avatar) VALUES (:username, :password, :email, :fullname, :phone, :avatar)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':password', password_hash($password, PASSWORD_BCRYPT)); // Mã hóa mật khẩu
             $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':fullname', $fullname);
+            $stmt->bindParam(':phone', $phone);
+            $stmt->bindParam(':avatar', $avatar);
             return $stmt->execute();
         } catch (PDOException $e) {
             return false;

@@ -87,6 +87,8 @@ if ($studentId) {
         <a href="index.php" class="btn btn-primary">Quay lại</a>
     </div>
 
+    <?php include '../partials/chat.php'; ?> <!-- Chat Bot -->
+
     <?php include '../partials/footer.php'; ?> <!-- Footer -->
 </body>
 </html>

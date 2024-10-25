@@ -18,14 +18,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $major = $_POST['major'];
     $dob = $_POST['dob'];
     $birthplace = $_POST['birthplace'];
+    $avatar = $_POST['avatar'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
 
-    $query = "INSERT INTO students (name, class, major, dob, birthplace) VALUES (:name, :class, :major, :dob, :birthplace)";
+    $query = "INSERT INTO students (name, class, major, dob, birthplace, avatar, phone, email) 
+              VALUES (:name, :class, :major, :dob, :birthplace, :avatar, :phone, :email)";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':class', $class);
     $stmt->bindParam(':major', $major);
     $stmt->bindParam(':dob', $dob);
     $stmt->bindParam(':birthplace', $birthplace);
+    $stmt->bindParam(':avatar', $avatar);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':email', $email);
 
     if ($stmt->execute()) {
         $_SESSION['message'] = "Thêm sinh viên thành công!";
@@ -72,10 +79,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="birthplace">Nơi sinh:</label>
                 <input type="text" class="form-control" id="birthplace" name="birthplace" required>
             </div>
+            <div class="form-group">
+                <label for="avatar">Ảnh đại diện (URL):</label>
+                <input type="url" class="form-control" id="avatar" name="avatar" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
             <button type="submit" class="btn btn-primary">Thêm sinh viên</button>
             <a href="index.php" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>
+
+    <?php include '../partials/chat.php'; ?> <!-- Chat Bot -->
 
     <?php include '../partials/footer.php'; ?> <!-- Footer -->
 

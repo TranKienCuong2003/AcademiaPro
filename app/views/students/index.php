@@ -61,11 +61,6 @@ $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Hàm xác định màu nền cho từng hàng
-function getRowColor($index) {
-    return ($index % 2 == 0) ? '#f8f9fa' : '#ffffff'; // Màu sắc xen kẽ
-}
 ?>
 
 <!DOCTYPE html>
@@ -86,9 +81,7 @@ function getRowColor($index) {
         <?php if (isset($_SESSION['message'])): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?php
-                // Hiển thị thông báo
                 echo $_SESSION['message'];
-                // Xóa thông báo sau khi đã hiển thị
                 unset($_SESSION['message']);
                 ?>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -130,7 +123,7 @@ function getRowColor($index) {
                                     <a href="edit.php?id=<?php echo htmlspecialchars($student['id']); ?>" class="btn btn-warning">Sửa</a>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo htmlspecialchars($student['id']); ?>">Xóa</button>
 
-                                   <!-- Modal xác nhận xóa -->
+                                    <!-- Modal xác nhận xóa -->
                                     <div class="modal fade" id="deleteModal<?php echo htmlspecialchars($student['id']); ?>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel<?php echo htmlspecialchars($student['id']); ?>" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -140,8 +133,8 @@ function getRowColor($index) {
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <div class="modal-body" style="color: black;"> <!-- Màu chữ đen -->
-                                                    Bạn có chắc chắn muốn xóa vĩnh viễn <strong style="color: black; font-weight: bold;"><?php echo htmlspecialchars($student['name']); ?></strong> không? <!-- Tên sinh viên màu đen và đậm -->
+                                                <div class="modal-body" style="color: black;">
+                                                    Bạn có chắc chắn muốn xóa vĩnh viễn <strong><?php echo htmlspecialchars($student['name']); ?></strong> không?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <form action="" method="POST">
@@ -162,8 +155,12 @@ function getRowColor($index) {
                     </tr>
                     <?php endif; ?>
                 </tbody>
-
             </table>
+        </div>
+
+        <!-- Nút Thêm sinh viên -->
+        <div class="d-flex justify-content-between mt-4">
+            <a href="../students/create.php" class="btn btn-primary">Thêm sinh viên</a>
         </div>
 
         <!-- Phân trang -->
@@ -192,8 +189,7 @@ function getRowColor($index) {
 
     <?php include '../partials/footer.php'; ?> <!-- Footer -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
