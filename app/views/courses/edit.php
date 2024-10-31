@@ -2,7 +2,7 @@
 session_start();
 
 // Bao gồm file Database.php để kết nối CSDL
-require_once __DIR__ . '/../../Database.php';
+require_once __DIR__ . '/../../core/Database.php';
 
 // Khởi tạo kết nối CSDL
 $database = Database::getInstance();

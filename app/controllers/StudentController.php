@@ -1,6 +1,6 @@
 <?php
-require_once '../app/config.php';
-require_once '../app/models/Student.php';
+require_once '../config/config.php';
+require_once '../models/Student.php';
 
 class StudentController {
     private $db;

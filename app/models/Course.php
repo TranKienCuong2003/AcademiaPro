@@ -1,5 +1,4 @@
 <?php
-
 class Course {
     private $db;
 

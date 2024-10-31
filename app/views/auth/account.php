@@ -14,7 +14,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-require_once __DIR__ . '/../../Database.php';
+require_once __DIR__ . '/../../core/Database.php';
 
 // Kết nối đến cơ sở dữ liệu sử dụng lớp Database
 $db = Database::getInstance();

@@ -1,6 +1,6 @@
 <?php
 session_start(); // Khởi tạo session
-require_once __DIR__ . '/../../Database.php';
+require_once __DIR__ . '/../../core/Database.php';
 
 // Tạo đối tượng Database bằng phương thức singleton
 $database = Database::getInstance();

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 class Database {
     private static $instance = null;
@@ -10,7 +10,7 @@ class Database {
     public $conn;
 
     private function __construct() {
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         $this->host = $_ENV['DB_HOST'];
@@ -41,7 +41,7 @@ class Database {
                 }
             }
         }
-        return $this->conn; // Đảm bảo trả về đối tượng PDO
+        return $this->conn;
     }
 
     public function create($query, $params) {

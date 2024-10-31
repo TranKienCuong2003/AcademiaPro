@@ -10,7 +10,7 @@ class AuthController {
             $username = trim($_POST['username']);
             $password = trim($_POST['password']);
 
-            $auth = new Auth(); // Sử dụng lớp Auth thay vì User
+            $auth = new Auth();
             $result = $auth->login($username, $password);
 
             if ($result) {
@@ -34,7 +34,7 @@ class AuthController {
             $phone = trim($_POST['phone']) ?? null;
             $avatar = trim($_POST['avatar']) ?? null;
 
-            $auth = new Auth(); // Sử dụng lớp Auth
+            $auth = new Auth();
             // Gọi phương thức register với tất cả các tham số
             $result = $auth->register($username, $password, $email, $fullname, $phone, $avatar);
 

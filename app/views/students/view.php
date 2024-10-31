@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../../config.php';
+require_once '../../config/config.php';
 require_once '../../models/Student.php';
 
 if (!isset($_GET['id'])) {

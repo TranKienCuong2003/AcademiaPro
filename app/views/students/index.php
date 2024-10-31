@@ -1,10 +1,10 @@
 <?php
 session_start(); // Khởi tạo session
-require_once __DIR__ . '/../../Database.php';
+require_once __DIR__ . '/../../core/Database.php';
 
 // Lấy instance của lớp Database
 $database = Database::getInstance();
-$conn = $database->getConnection(); // Lấy kết nối
+$conn = $database->getConnection();
 
 // Kiểm tra xem có nhận được kết nối hay không
 if (!$conn) {

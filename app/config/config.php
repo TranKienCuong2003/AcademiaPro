@@ -1,6 +1,6 @@
 <?php
 // Tải Composer autoload
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 class Database {
     private $host;
@@ -16,7 +16,7 @@ class Database {
 
     private function loadEnvironmentVariables() {
         try {
-            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
             $dotenv->load();
 
             $this->host = $_ENV['DB_HOST'];

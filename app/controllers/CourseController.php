@@ -1,6 +1,6 @@
 <?php
-require_once '../app/config.php';
-require_once '../app/models/Course.php';
+require_once '../config/config.php';
+require_once '../models/Course.php';
 
 class CourseController {
     private $db;
