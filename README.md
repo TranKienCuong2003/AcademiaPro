@@ -74,7 +74,7 @@ Ensure you have the following installed on your system:
    - Start your web server (Apache or another) and navigate to the project directory.
    - Open your web browser and go to:
      ```
-     http://localhost/AcademiaPro
+     http://localhost:3000/public/index.php
      ```
      The application should now be up and running. You can start managing users, instructors, students, courses, and grades.
 
